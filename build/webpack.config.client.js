@@ -7,6 +7,15 @@ const ExtractPlugin = require('extract-text-webpack-plugin');
 const baseConfig = require('./webpack.config.base');
 
 const isDev = process.env.NODE_ENV === 'development';
+const defaultPlugins = [
+    new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: isDev ? '"development"' : '"production"'
+        }
+    }),
+    new VueLoaderPlugin(),
+    new HTMLPlugin()
+];
 const devServer = {
     port: '8001',
     host: '0.0.0.0',
@@ -38,15 +47,15 @@ if (isDev) {
             }]
         },
         devServer,
-        plugins: [
+        plugins: defaultPlugins.concat([
             new webpack.HotModuleReplacementPlugin(),
             new webpack.NoEmitOnErrorsPlugin()
-        ]
+        ])
     });
 } else {
     config = merge(baseConfig, {
         entry: {
-            app: path.join(__dirname, '../src/index.js'),
+            app: path.join(__dirname, '../client/index.js'),
             vendor: ['vue']
         },
         output: {
@@ -70,9 +79,9 @@ if (isDev) {
                 })
             }]
         },
-        plugins: [
+        plugins: defaultPlugins.concat([
             new ExtractPlugin('styles.[hash:8].css')
-        ],
+        ]),
         optimization: {
             splitChunks: {
                 cacheGroups: {
