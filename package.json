@@ -9,8 +9,7 @@
     "lint-fix": "eslint --fix --ext js --ext jsx --ext vue client/",
     "build": "cross-env NODE_ENV=production webpack --config build/webpack.config.client.js",
     "practice": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.practice.js",
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js",
-    "precommit": "npm run lint"
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.config.client.js"
   },
   "author": "",
   "license": "ISC",
