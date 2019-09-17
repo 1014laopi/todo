@@ -1,4 +1,4 @@
-<template>
+ <template>
   <header class="main-header">
     <h1>WTodo</h1>
   </header>
@@ -7,7 +7,6 @@
 <style lang="stylus" scoped>
 .main-header {
   text-align: center;
-
   h1 {
     font-size: 100px;
     color: #fff;
@@ -15,6 +14,4 @@
     margin: 20px;
   }
 }
-</style>
-
-
+</style> 

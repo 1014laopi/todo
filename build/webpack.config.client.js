@@ -14,7 +14,9 @@ const defaultPlugins = [
         }
     }),
     new VueLoaderPlugin(),
-    new HTMLPlugin()
+    new HTMLPlugin({
+      template: path.join(__dirname, './template.html')
+    })
 ];
 const devServer = {
     port: '8001',
@@ -22,8 +24,11 @@ const devServer = {
     overlay: {
         errors: true
     },
-    hot: true
+    hot: true,
     // open: true
+    historyApiFallback: {
+      index: '/index.html'
+    }
 };
 let config;
 
@@ -34,8 +39,20 @@ if (isDev) {
             rules: [{
                 test: /\.styl/,
                 use: [
-                    'style-loader',
+                    'vue-style-loader',
                     'css-loader',
+                    // {
+                    //     loader: 'css-loader',
+                    //     // options: {
+                    //     //     modules: true,
+                    //     //     localIdentName: isDev ? '[path]-[name]-[hash:base64:5]' : '[hash:base64:5]',
+                    //     // }
+                    //     options: {
+                    //         modules: true,
+                    //         camelCase: true
+                    //         // localIdentName: '[local]_[hash:base64:8]'
+                    //     }
+                    // },
                     {
                         loader: 'postcss-loader',
                         options: {
@@ -49,14 +66,14 @@ if (isDev) {
         devServer,
         plugins: defaultPlugins.concat([
             new webpack.HotModuleReplacementPlugin(),
-            new webpack.NoEmitOnErrorsPlugin()
+            // new webpack.NoEmitOnErrorsPlugin()
         ])
     });
 } else {
     config = merge(baseConfig, {
         entry: {
             app: path.join(__dirname, '../client/index.js'),
-            vendor: ['vue']
+            // vendor: ['vue']
         },
         output: {
             filename: '[name].[chunkhash:8].js'
@@ -65,7 +82,7 @@ if (isDev) {
             rules: [{
                 test: /\.styl/,
                 use: ExtractPlugin.extract({
-                    fallback: 'style-loader',
+                    fallback: 'vue-style-loader',
                     use: [
                         'css-loader',
                         {
@@ -84,20 +101,10 @@ if (isDev) {
         ]),
         optimization: {
             splitChunks: {
-                cacheGroups: {
-                    vendor: {
-                        name: "vendor",
-                        chunks: "initial",
-                        minChunks: 2,
-                        // 最小多少字节，文件太小，为了测试，这个参数设置为0，这个值默认30000
-                        minSize: 0
-                    }
-                }
+                chunks: 'all'
             },
             // runtime缓存单独打包
-            runtimeChunk: {
-                name: 'runtime'
-            },
+            runtimeChunk: true
             // 设置跳过编译时报错
             // noEmitOnErrors: true,
             // 环境变量
