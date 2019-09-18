@@ -7,19 +7,15 @@ export default [
     redirect: '/app'
   },
   {
-    path: '/app/:id',
-    // path: '/app',
-    // props: (route) => ({id: route.query.b}),
+    path: '/app',
     props: true,
     component: () => import('../views/todo/todo.vue'),
-    // component: Todo,
     name: 'app',
     meta: {
       title: 'this is app',
       description: 'this is app'
     },
     beforeEnter(to, from, next) {
-      // console.log('app route before enter');
       next();
     }
     // children: [
