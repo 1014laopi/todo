@@ -1,11 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const merge = require('webpack-merge');
 const baseConfig = require('./webpack.config.base');
 const ExtractPlugin = require('extract-text-webpack-plugin');
 const VueServerPlugin = require('vue-server-renderer/server-plugin');
-
 let config;
 
 config = merge(baseConfig, {
@@ -36,15 +34,7 @@ config = merge(baseConfig, {
       })
     }]
   },
-  // devServer,
-  // import vue from 'vue'
-  resolve: {
-    alias: {
-      'vue': path.join(__dirname, '../node_modules/vue/dist/vue.esm.js')
-    }
-  },
   plugins: [
-    new VueLoaderPlugin(),
     new ExtractPlugin('styles.[hash:8].css'),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development'),
